@@ -1,5 +1,6 @@
 #include "vec.h"
 #include <string.h>
+#include <time.h>
 
 vector __vec_init(size_t type_size, size_t n) {
     vector v = {0, type_size, 0, NULL};
@@ -15,7 +16,9 @@ vector __vec_init(size_t type_size, size_t n) {
 }
 
 void __vec_clear(vector *v) {
-    free(v->mem);
+    if (v->mem != NULL)
+        free(v->mem);
+
     v->mem = NULL;
     v->mem_size = 0;
     v->size = 0;
