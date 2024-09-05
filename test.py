@@ -26,7 +26,7 @@ input_index = output.find(input_line[:-1])
 if input_index != -1:
     print(f"TEST 1/{TESTS} Passed: Input found at offset {input_index}!")
 
-if output.count('freed!'):
+if output.count('freed!') == LINES:
     print(f"TEST 2/{TESTS} Passed: Freed lines = input lines!")
 
 realloc_calls = output.count('+++ realloc')
