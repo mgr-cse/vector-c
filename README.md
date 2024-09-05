@@ -36,3 +36,8 @@ used by the vector.
 
 See `vec_test.c` file for a sample usage.
 
+# How to compile?
+
+```
+make vec_test
+```
