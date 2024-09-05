@@ -1,5 +1,5 @@
 OBJS = vec_test.o vec.o
-HEADERS =
+HEADERS = vec.h
 
 CFLAGS = -g
 LIBS =
