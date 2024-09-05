@@ -3,18 +3,21 @@
 
 #include "vec.h"
 
-int main() {
+int main(void) {
     vector v = VEC_INIT(vector, 0);
 
-    char c;
-    while ((c = getchar()) != '\n') {
-        vector l = VEC_INIT(char, 0);
-        do {
-            VEC_PUSH_BACK(char, l, c);
-        } while ((c = getchar()) != '\n');
-        VEC_PUSH_BACK(char, l, c);
-        VEC_PUSH_BACK(char, l, '\0');
-        VEC_PUSH_BACK(vector, v, l);
+    int c;
+    vector line = VEC_INIT(char, 0);
+
+    printf("Enter input text, press Ctrl-D to quit:\n");
+    while ((c = getchar()) != EOF) {
+        VEC_PUSH_BACK(char, line, (char)c);
+
+        if (c == '\n') {
+            VEC_PUSH_BACK(char, line, '\0');
+            VEC_PUSH_BACK(vector, v, line);
+            line = VEC_INIT(char, 0);
+        }
     }
 
     printf("+++ Printing input\n");
@@ -27,15 +30,17 @@ int main() {
     // free memory
     while (v.size > 0) {
         vector l = VEC_GET(vector, v, v.size - 1);
+        void *old_addr = NULL;
+
         VEC_CLEAR(l);
         if (l.size == 0 && l.mem == NULL)
             printf("+++ line freed!\n");
         else
             printf("+++ Error in freeing line\n");
 
-        void *old_addr = v.mem;
+        old_addr = v.mem;
         VEC_POP_BACK(vector, v);
         if (old_addr != v.mem)
-            printf("+++ realloc called");
+            printf("+++ realloc called\n");
     }
 }

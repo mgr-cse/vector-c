@@ -1,7 +1,7 @@
 OBJS = vec_test.o libvec.a
 HEADERS = vec.h
 
-CFLAGS = -g
+CFLAGS = -g -Wall -Wextra -Werror -pedantic
 LIBS =
 
 vec_test: $(OBJS)

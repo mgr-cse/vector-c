@@ -1,4 +1,5 @@
 *.o
+*.a
 vec_test
 .vscode/
 

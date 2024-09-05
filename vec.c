@@ -28,12 +28,11 @@ void __vec_clear(vector *v) {
 // don't reference them
 int __vec_pop_back(vector *v) {
     int ret = 0;
+    size_t new_size = v->size - 1;
+    size_t mem_req = v->stride * new_size;
 
     if (v->size == 0)
         return ret;
-
-    size_t new_size = v->size - 1;
-    size_t mem_req = v->stride * new_size;
 
     if (mem_req == 0) {
         __vec_clear(v);
@@ -56,14 +55,18 @@ int __vec_pop_back(vector *v) {
 
 int __vec_push_back(vector *v, const void *e) {
     size_t mem_req = v->stride * (v->size + 1);
+    void *offset;
 
     if (v->mem_size < mem_req) {
         size_t new_size = 1;
+        size_t new_mem_size;
+        void *mem_new;
+
         if (v->size != 0)
             new_size = 2 * v->size;
-        size_t new_mem_size = v->stride * new_size;
+        new_mem_size = v->stride * new_size;
 
-        void *mem_new = realloc(v->mem, new_mem_size);
+        mem_new = realloc(v->mem, new_mem_size);
         if (mem_new == NULL)
             return 1;
 
@@ -71,7 +74,7 @@ int __vec_push_back(vector *v, const void *e) {
         v->mem_size = new_mem_size;
     }
 
-    void *offset = v->mem + v->size * v->stride;
+    offset = (char *)v->mem + v->size * v->stride;
     if (memcpy(offset, e, v->stride) == NULL)
         return 1;
 
@@ -80,10 +83,10 @@ int __vec_push_back(vector *v, const void *e) {
     return 0;
 }
 
-void *__vec_get(vector v, size_t i) { return v.mem + v.stride * i; }
+void *__vec_get(vector v, size_t i) { return (char *)v.mem + v.stride * i; }
 
 int __vec_set(vector *v, size_t i, const void *e) {
-    void *offset = v->mem + i * v->stride;
+    void *offset = (char *)v->mem + i * v->stride;
     if (memcpy(offset, e, v->stride) == NULL)
         return 1;
     return 0;
