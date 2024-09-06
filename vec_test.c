@@ -10,6 +10,12 @@ int main(void) {
     string_concat(&s, "World!\n");
     printf("%s", string_c_str(s));
 
+    vector s_split = string_split(s, ",");
+    for (size_t i = 0; i < s_split.size; i++) {
+        string l = VEC_GET(string, s_split, i);
+        printf("%s\n", string_c_str(l));
+    }
+
     int c;
     vector line = VEC_INIT(char, 0);
 

@@ -40,8 +40,10 @@ int __vec_push_back(vector *v, const void *e);
 void *__vec_get(vector v, size_t i);
 int __vec_set(vector *v, size_t i, const void *e);
 
-string string_init(const char* s);
-char* string_c_str(string s);
-string string_concat(string* s, const char* s2);
+string string_init(const char *s);
+char *string_c_str(string s);
+string string_concat(string *s, const char *s2);
+size_t string_len(string s);
+vector string_split(string s, const char *delim);
 
 #endif

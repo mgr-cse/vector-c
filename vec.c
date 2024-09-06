@@ -1,5 +1,7 @@
 #include "vec.h"
 #include <string.h>
+#include <sys/_types/_size_t.h>
+#include <sys/_types/_ssize_t.h>
 #include <time.h>
 
 vector __vec_init(size_t type_size, size_t n) {
@@ -106,6 +108,7 @@ string string_init(const char *s) {
 
 char *string_c_str(string s) { return s.mem; }
 
+// needs improvement, direct memcopy?
 string string_concat(string *s, const char *s2) {
     VEC_POP_BACK(char, *s);
     int i = 0;
@@ -113,4 +116,39 @@ string string_concat(string *s, const char *s2) {
         VEC_PUSH_BACK(char, *s, s2[i++]);
     } while (s2[i - 1] != '\0');
     return *s;
+}
+
+size_t string_len(string s) { return s.size - 1; }
+
+// better with a hashmap
+static int __string_has_delim(const char *delim, char d) {
+    for (size_t i = 0; delim[i] != '\0'; i++) {
+        if (delim[i] == d)
+            return 1;
+    }
+    return 0;
+}
+
+vector string_split(string s, const char *delim) {
+    vector ret = VEC_INIT(string, 0);
+    size_t length = string_len(s);
+    string token = VEC_INIT(char, 0);
+
+    for (size_t i = 0; i < length; i++) {
+        char c = VEC_GET(char, s, i);
+
+        if (__string_has_delim(delim, c)) {
+            VEC_PUSH_BACK(char, token, '\0')
+            VEC_PUSH_BACK(string, ret, token);
+            token = VEC_INIT(char, 0);
+        } else {
+            VEC_PUSH_BACK(char, token, c);
+        }
+    }
+
+    if (token.size != 0) {
+        VEC_PUSH_BACK(char, token, '\0')
+        VEC_PUSH_BACK(string, ret, token);
+    }
+    return ret;
 }
