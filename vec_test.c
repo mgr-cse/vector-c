@@ -6,6 +6,10 @@
 int main(void) {
     vector v = VEC_INIT(vector, 0);
 
+    string s = string_init("Hello, ");
+    string_concat(&s, "World!\n");
+    printf("%s", string_c_str(s));
+
     int c;
     vector line = VEC_INIT(char, 0);
 

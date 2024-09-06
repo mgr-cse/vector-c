@@ -31,11 +31,17 @@ typedef struct {
     void *mem;
 } vector;
 
+typedef vector string;
+
 vector __vec_init(size_t type_size, size_t n);
 int __vec_pop_back(vector *v);
 void __vec_clear(vector *v);
 int __vec_push_back(vector *v, const void *e);
 void *__vec_get(vector v, size_t i);
 int __vec_set(vector *v, size_t i, const void *e);
+
+string string_init(const char* s);
+char* string_c_str(string s);
+string string_concat(string* s, const char* s2);
 
 #endif

@@ -91,3 +91,26 @@ int __vec_set(vector *v, size_t i, const void *e) {
         return 1;
     return 0;
 }
+
+string string_init(const char *s) {
+    size_t length = strlen(s) + 1;
+    string str_c = VEC_INIT(char, length);
+
+    if (memcpy(str_c.mem, s, length) == NULL) {
+        return str_c;
+    }
+
+    str_c.size = length;
+    return str_c;
+}
+
+char *string_c_str(string s) { return s.mem; }
+
+string string_concat(string *s, const char *s2) {
+    VEC_POP_BACK(char, *s);
+    int i = 0;
+    do {
+        VEC_PUSH_BACK(char, *s, s2[i++]);
+    } while (s2[i - 1] != '\0');
+    return *s;
+}
