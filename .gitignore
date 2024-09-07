@@ -1,5 +1,5 @@
 *.o
 *.a
-vec_test
+*.bin
 .vscode/
 
